@@ -1,9 +1,12 @@
 const mongoose = require('mongoose');
 const attendanceSchema = new mongoose.Schema({
     employee: { type: mongoose.Schema.Types.ObjectId, ref: 'Employee', unique: true, required: true },
-    month:{type:String,required:true},
-    checkIn:{type:String,required:true},
-    checkOut:{type:String,required:true},
+    month: { type: String, required: true },
+    date:{type:String,required:true},
+    checkIn: { type: String, required: true },
+    checkOut: { type: String },
+}, { timestamps: true });
 
-},{ timestamps: true })
-module.exports = mongoose.model("Attendance",attendanceSchema)
+attendanceSchema.index({ employee: 1, date: 1 }, { unique: true });
+
+module.exports = mongoose.model('Attendance', attendanceSchema);

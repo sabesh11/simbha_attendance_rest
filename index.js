@@ -26,6 +26,8 @@ app.use(cors(
 ))
 
 const EmplyoeeRouter = require('./controller/EmplyoeeController')
+const AttendanceRouter = require('./controller/AttendenceController')
 
 app.use('/emplyoee',EmplyoeeRouter)
+app.use("/attendance",AttendanceRouter)
 

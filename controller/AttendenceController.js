@@ -3,9 +3,9 @@ const router = express.Router();
 const Attendance = require('../modal/Attendance');
 const Employee = require('../modal/Emplyoee');
 
-router.post("addAttendance", async (req, res) => {
+router.post("/addAttendance", async (req, res) => {
     try {
-        const { employeeId, month, checkIn, checkOut } = req.body;
+        const { employeeId, month, checkIn, checkOut,date } = req.body;
 
         // Check if the employee exists
         const employee = await Employee.findById(employeeId);
@@ -13,22 +13,29 @@ router.post("addAttendance", async (req, res) => {
             return res.status(404).json({ message: 'Employee not found' });
         }
 
-        // Check if an attendance record already exists for this employee
-        const existingAttendance = await Attendance.findOne({ employee: employeeId });
+        // Check if an attendance record already exists for this employee and month
+        const existingAttendance = await Attendance.findOne({ employee: employeeId, date });
         if (existingAttendance) {
-            return res.status(400).json({ message: 'Attendance record already exists for this employee' });
+            return res.status(400).json({ message: 'Attendance record for this date already exists' });
         }
 
         // Create a new attendance record
         const newAttendance = new Attendance({
             employee: employeeId,
             month,
+            date,
             checkIn,
-            checkOut,
+            checkOut
         });
 
-        await newAttendance.save();
-        res.status(201).json({ message: 'Attendance record created', data: newAttendance });
+        // Save the new attendance record
+        const savedAttendance = await newAttendance.save();
+
+        // Add the attendance record to the employee's attendance array
+        employee.attendance.push(savedAttendance._id);
+        await employee.save();
+
+        res.status(201).json({ message: 'Attendance record created', data: savedAttendance });
     } catch (error) {
         res.status(500).json({ message: 'Server error', error: error.message });
     }
