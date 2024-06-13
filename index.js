@@ -3,6 +3,7 @@ const app = express()
 const port = 3000
 const mongoose = require('mongoose');
 const cors =require("cors")
+const scheduleTasks = require('./scheduledTasks');
 
 app.listen(port,()=>{console.log("server is running");})
 
@@ -31,3 +32,4 @@ const AttendanceRouter = require('./controller/AttendenceController')
 app.use('/emplyoee',EmplyoeeRouter)
 app.use("/attendance",AttendanceRouter)
 
+scheduleTasks(); 

@@ -77,7 +77,7 @@ router.post("/addCheckout/:attendanceId",  async (req, res) => {
         }
 
         // Update the checkout time
-        attendance.checkOut = checkOut;
+        attendance.checkOut = checkOut || 'N/A';
         await attendance.save();
 
         res.status(200).json({ message: 'Checkout time updated', data: attendance });

@@ -4,7 +4,7 @@ const attendanceSchema = new mongoose.Schema({
     month: { type: String, required: true },
     date:{type:String,required:true},
     checkIn: { type: String, required: true },
-    checkOut: { type: String },
+    checkOut: { type: String,default: null },
 }, { timestamps: true });
 
 attendanceSchema.index({ employee: 1, date: 1 }, { unique: true });
