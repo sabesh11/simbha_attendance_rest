@@ -13,6 +13,9 @@ router.post("/addAttendance", async (req, res) => {
             return res.status(404).json({ message: 'Employee not found' });
         }
 
+        const dayOfWeek = new Date(date).getDay();
+
+        const adjustedCheckIn = dayOfWeek === 0 ? "N/A" : checkIn;
         // Check if an attendance record already exists for this employee and month
         const existingAttendance = await Attendance.findOne({ employee: employeeId, date });
         if (existingAttendance) {
@@ -24,7 +27,7 @@ router.post("/addAttendance", async (req, res) => {
             employee: employeeId,
             month,
             date,
-            checkIn,
+            checkIn: adjustedCheckIn,
             checkOut
         });
 
