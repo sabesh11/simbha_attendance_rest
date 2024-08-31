@@ -86,6 +86,24 @@ router.post("/addCheckout/:attendanceId",  async (req, res) => {
     }
 });
 
+router.get('/getAttendaancebyMonth/:emplyoeeId/:month', async(req,res)=>{
+    try{
+        const {month} = req.params;
+        const {emplyoeeId} = req.params;
+        const attendance = await Attendance.find({employee:emplyoeeId,month:month}).populate('employee')
+        if(!attendance || attendance.length === 0){
+        res.status(200).json({message:'data is empty',data:[]})
+        }
+        else{
+            res.status(200).json({data:attendance})
+        }
+
+    }
+    catch(err){
+        res.send(err)
+    }
+});
+
 module.exports = router
 
 

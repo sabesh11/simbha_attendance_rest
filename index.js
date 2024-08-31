@@ -3,9 +3,9 @@ const app = express()
 const port = 3000
 const mongoose = require('mongoose');
 const cors =require("cors")
-const scheduleTasks = require('./scheduledTasks');
+// const scheduleTasks = require('./scheduledTasks');
 
-app.listen(port,()=>{console.log("server is running");})
+app.listen(port,()=>{console.log("server is running"+port);})
 
 const MONGODB_URL ="mongodb://127.0.0.1:27017/attendance"
 
@@ -28,8 +28,10 @@ app.use(cors(
 
 const EmplyoeeRouter = require('./controller/EmplyoeeController')
 const AttendanceRouter = require('./controller/AttendenceController')
+const ItemController = require("./controller/ItemController")
 
 app.use('/emplyoee',EmplyoeeRouter)
 app.use("/attendance",AttendanceRouter)
+app.use("/item",ItemController)
 
-scheduleTasks(); 
+// scheduleTasks(); 
